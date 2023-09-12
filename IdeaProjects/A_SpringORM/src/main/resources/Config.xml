@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx.xsd
+     http://www.springframework.org/schema/util
+     http://www.springframework.org/schema/util/spring-util.xsd
+     ">
+    <tx:annotation-driven/>
+
+<!--    creating DataSource()-->
+    <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" name="dataSource">
+        <constructor-arg value="jdbc:mysql:///springorm"/>
+        <constructor-arg value="root"/>
+        <constructor-arg value="root"/>
+    </bean>
+
+<!--    creating SessionFactory(LocalSessionFactoryBean) no constructor injection available-->
+    <bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" name="sessionFactory">
+        <property name="DataSource" ref="dataSource"/>
+<!--        setting hibernate properties-->
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+<!--        3. annotatedClasses (List)-->
+        <property name="annotatedClasses">
+            <list>
+                <value>com.springorm.entities.Product</value>
+            </list>
+        </property>
+    </bean>
+
+<!--    creating hibernate template-->
+    <bean class="org.springframework.orm.hibernate5.HibernateTemplate" name="hibernateTemplate">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+<!--creating ProductDaoImpl bean -->
+    <bean class="com.springorm.dao.ProductDaoImpl" name="productDao">
+        <property name="template" ref="hibernateTemplate"/>
+    </bean>
+
+<!--    for making Read and write-->
+    <bean class="org.springframework.orm.hibernate5.HibernateTransactionManager" name="transactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+</beans>
