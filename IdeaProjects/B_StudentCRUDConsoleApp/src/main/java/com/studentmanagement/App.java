@@ -57,9 +57,15 @@ public class App
                     }
                     case 2 :{
                         //get student by id
-                        System.out.print("Enter Student ID        : ");
+                        System.out.print("Enter Student ID  : ");
                         int uId = Integer.parseInt(br.readLine());
-                        System.out.println(studentDao.getStudent(uId));
+                        Student sTemp = studentDao.getStudent(uId);
+//                        System.out.println(studentDao.getStudent(uId));
+                        if (sTemp != null) {
+                            System.out.println(sTemp);
+                        } else {
+                            System.out.println("Student Not Exists");
+                        }
                         break;
                     }
                     case 3 :{
@@ -69,24 +75,57 @@ public class App
                             System.out.println( i+". "+student);
                             i++;
                         }
+                        System.out.println(" ");
                         break;
                     }
                     case 4 :{
                         // delete student
-                        System.out.print("Enter Student ID        : ");
+                        System.out.print("Enter Student ID  : ");
                         int uId = Integer.parseInt(br.readLine());
 //                        showing student
-                        System.out.println(studentDao.getStudent(uId));
+                        Student sTemp = studentDao.getStudent(uId);
+//                        System.out.println(studentDao.getStudent(uId));
+                        if (sTemp != null) {
+                            System.out.println(sTemp);
+                        } else {
+                            System.out.println("Student Not Exists");
+                            break;
+
+                        }
                         System.out.print("Are you sure you want to delete this Student (Y/N) : ");
                         String confirm = br.readLine();
                         if (confirm.equals("Y") || confirm.equals("y")){
                             studentDao.delete(uId);
+                            System.out.println("Student Deleted SuccessFully...");
                         }
 
                         break;
                     }
                     case 5 :{
-                        //update student
+//                        update
+                        System.out.print("Enter Student ID  : ");
+                        int uId = Integer.parseInt(br.readLine());
+//                        showing student
+                        Student sTemp = studentDao.getStudent(uId);
+//                        System.out.println(studentDao.getStudent(uId));
+                        if (sTemp != null) {
+                            System.out.println(sTemp);
+                        } else {
+                            System.out.println("Student Not Exists");
+                            break;
+
+                        }
+                        System.out.print("Are you sure you want to update this Student detail (Y/N) : ");
+                        String confirm = br.readLine();
+                        if (confirm.equals("Y") || confirm.equals("y")){
+                            System.out.println("-----Enter the new details-----");
+                            System.out.print("Enter Student Name      : ");
+                            String uName = br.readLine();
+                            System.out.print("Enter Student College   : ");
+                            String uClg = br.readLine();
+                            studentDao.update(new Student(uId, uName, uClg));
+                            System.out.println("Student Details Updated SuccessFully...");
+                        }
                         break;
                     }
                     case 6 :{

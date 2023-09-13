@@ -67,6 +67,6 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student Name : "+name+" ID : "+id+" College : "+clg+".";
+        return "Student ID : "+id+" Name : "+name+" College : "+clg+".";
     }
 }

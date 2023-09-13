@@ -61,5 +61,11 @@ public class StudentDaoImpl implements StudentDao {
         this.hibernateTemplate.delete(getStudent(studentId));
     }
 
+    @Override
+    @Transactional
+    public void update(Student student) {
+        this.hibernateTemplate.update(student);
+    }
+
 
 }
